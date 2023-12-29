@@ -111,4 +111,26 @@ final class AppTests: XCTestCase {
             XCTAssertEqual(res.body.string, "Search for Keyword italian on Page 10")
         })
     }
+    
+    func testRestaurantsGroup() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+
+        try app.test(.GET, "/restaurants", afterResponse: { res in
+            XCTAssertEqual(res.status, .ok)
+            XCTAssertEqual(res.body.string, "restaurants base route")
+        })
+    }
+    
+    func testRestaurantsStarRating() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+
+        try app.test(.GET, "/restaurants/starRating/5", afterResponse: { res in
+            XCTAssertEqual(res.status, .ok)
+            XCTAssertEqual(res.body.string, "restaurants/starRating/5")
+        })
+    }
 }

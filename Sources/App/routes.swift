@@ -49,4 +49,17 @@ func routes(_ app: Application) throws {
         }
         return "Search for Keyword \(keyword) on Page \(page)"
     }
+    
+    let restaurants = app.grouped("restaurants")
+    
+    restaurants.get { req -> String in
+        return "restaurants base route"
+    }
+    
+    restaurants.get("starRating", ":stars") { req -> String in
+        guard let stars = req.parameters.get("stars") else {
+            throw Abort(.badRequest)
+        }
+        return "restaurants/starRating/\(stars)"
+    }
 }
