@@ -42,4 +42,11 @@ func routes(_ app: Application) throws {
     app.get("routeany", "**") { req -> String in
         return "This is Catch All route"
     }
+    
+    app.get("search") { req -> String in
+        guard let keyword = req.query["keyword"] as String?, let page = req.query["page"] as String? else {
+            throw Abort(.badRequest)
+        }
+        return "Search for Keyword \(keyword) on Page \(page)"
+    }
 }

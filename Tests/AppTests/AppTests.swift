@@ -100,4 +100,15 @@ final class AppTests: XCTestCase {
             XCTAssertEqual(res.body.string, "This is Catch All route")
         })
     }
+    
+    func testSearch() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+
+        try app.test(.GET, "/search?keyword=italian&page=10", afterResponse: { res in
+            XCTAssertEqual(res.status, .ok)
+            XCTAssertEqual(res.body.string, "Search for Keyword italian on Page 10")
+        })
+    }
 }
